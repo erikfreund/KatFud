@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using SimpleEchoBot.JSON_models;
+using System.Web;
 
 namespace Microsoft.Bot.Sample.SimpleEchoBot
 {
@@ -24,6 +26,8 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
         public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
         {
             var message = await argument;
+
+            IntentAndEntity messageIntentAndEntity = LuisParse(message.Text);
 
             var replyMessage = context.MakeMessage();
 
@@ -45,6 +49,11 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
                 replyMessage.Attachments = new List<Attachment> { attachment };
 
                 await context.PostAsync(replyMessage);
+            }
+            else if (messageIntentAndEntity.intent == "Feed")
+            {
+                await context.PostAsync($"{this.count++}: Oh boy oh boy oh boy, I can't wait for {messageIntentAndEntity.entity}!!");
+                context.Wait(MessageReceivedAsync);
             }
             else
             {
@@ -90,89 +99,29 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
             };
         }
 
+        private static IntentAndEntity LuisParse(string userMessage)
+        {
+            var luisAppId = "7366ffa6-30b5-45b3-b609-a34c36c58554";
+            var luisGetUrl = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + luisAppId + "?q=" + userMessage;
+            IntentAndEntity messageIntentAndEntity = new IntentAndEntity();
+
+            using (WebClient wc = new WebClient())
+            {
+                var responseString = wc.DownloadString(luisGetUrl);
+                LuisData luisJson = JsonConvert.DeserializeObject<LuisData>(responseString);
+                messageIntentAndEntity.intent = luisJson.topScoringIntent.intent;
+                messageIntentAndEntity.entity = luisJson.entities[0].entity;
+            }
+
+            return messageIntentAndEntity;
+        }
+
     }
 
-    public class GiphyData
+    public class IntentAndEntity
     {
-        public List<Datum> data { get; set; }
-        //public Pagination pagination { get; set; }
-        public Meta meta { get; set; }
+        public string intent { get; set; }
+        public string entity { get; set; }
     }
 
-    public class Datum
-    {
-        public string type { get; set; }
-        public string id { get; set; }
-        public string slug { get; set; }
-        public string url { get; set; }
-        public string bitly_gif_url { get; set; }
-        public string bitly_url { get; set; }
-        public string embed_url { get; set; }
-        public string username { get; set; }
-        public string source { get; set; }
-        public string rating { get; set; }
-        public string content_url { get; set; }
-        public string source_tld { get; set; }
-        public string source_post_url { get; set; }
-        public int is_indexable { get; set; }
-        public int is_sticker { get; set; }
-        public string import_datetime { get; set; }
-        public string trending_datetime { get; set; }
-        public Images images { get; set; }
-        public string title { get; set; }
-    }
-
-    public class Meta
-    {
-        public int status { get; set; }
-        public string msg { get; set; }
-        public string response_id { get; set; }
-    }
-
-    public class Images
-    {
-        public FixedHeightStill fixed_height_still { get; set; }
-        //public OriginalStill original_still { get; set; }
-        //public FixedWidth fixed_width { get; set; }
-        //public FixedHeightSmallStill fixed_height_small_still { get; set; }
-        //public FixedHeightDownsampled fixed_height_downsampled { get; set; }
-        //public Preview preview { get; set; }
-        //public FixedHeightSmall fixed_height_small { get; set; }
-        //public DownsizedStill downsized_still { get; set; }
-        //public Downsized downsized { get; set; }
-        //public DownsizedLarge downsized_large { get; set; }
-        //public FixedWidthSmallStill fixed_width_small_still { get; set; }
-        //public PreviewWebp preview_webp { get; set; }
-        //public FixedWidthStill fixed_width_still { get; set; }
-        //public __invalid_type__480wStill __invalid_name__480w_still { get; set; }
-        //public FixedWidthSmall fixed_width_small { get; set; }
-        //public DownsizedSmall downsized_small { get; set; }
-        //public FixedWidthDownsampled fixed_width_downsampled { get; set; }
-        //public DownsizedMedium downsized_medium { get; set; }
-        //public Original original { get; set; }
-        public FixedHeight fixed_height { get; set; }
-        //public Looping looping { get; set; }
-        //public OriginalMp4 original_mp4 { get; set; }
-        //public PreviewGif preview_gif { get; set; }
-    }
-
-    public class FixedHeight
-    {
-        public string url { get; set; }
-        public string width { get; set; }
-        public string height { get; set; }
-        public string size { get; set; }
-        public string mp4 { get; set; }
-        public string mp4_size { get; set; }
-        public string webp { get; set; }
-        public string webp_size { get; set; }
-    }
-
-    public class FixedHeightStill
-    {
-        public string url { get; set; }
-        public string width { get; set; }
-        public string height { get; set; }
-        public string size { get; set; }
-    }
 }
