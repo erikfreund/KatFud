@@ -22,6 +22,8 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
         {
             var message = await argument;
 
+            Attachment attachment = null;
+
             if (message.Text == "reset")
             {
                 PromptDialog.Confirm(
@@ -31,9 +33,13 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
                     "Didn't get that!",
                     promptStyle: PromptStyle.Auto);
             }
+            else if (message.Text == "cat")
+            {
+                attachment = GetInternetAttachment();
+            }
             else
             {
-                await context.PostAsync($"{this.count++}: You said {message.Text}");
+                await context.PostAsync($"{this.count++}: You sez {message.Text}, d00d");
                 context.Wait(MessageReceivedAsync);
             }
         }
@@ -51,6 +57,16 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
                 await context.PostAsync("Did not reset count.");
             }
             context.Wait(MessageReceivedAsync);
+        }
+
+        private static Attachment GetInternetAttachment()
+        {
+            return new Attachment
+            {
+                Name = "BotFrameworkOverview.png",
+                ContentType = "image/png",
+                ContentUrl = "https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png"
+            };
         }
 
     }
