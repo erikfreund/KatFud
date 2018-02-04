@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleEchoBot", "Microsoft.Bot.Sample.SimpleEchoBot.csproj", "{9C7E3A46-B60F-4052-9A21-DC8D1A942216}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendAttachmentBot", "..\..\..\Documents\GitHub\BotBuilder-Samples\CSharp\core-SendAttachment\SendAttachmentBot.csproj", "{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "README", "README", "{055ED3AE-16F9-4B26-91EC-58F697F659CA}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\..\Documents\GitHub\BotBuilder-Samples\CSharp\core-SendAttachment\README.md = ..\..\..\Documents\GitHub\BotBuilder-Samples\CSharp\core-SendAttachment\README.md
@@ -22,10 +20,6 @@ Global
 		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
