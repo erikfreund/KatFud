@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
@@ -22,6 +23,8 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
         {
             var message = await argument;
 
+            var replyMessage = context.MakeMessage();
+
             Attachment attachment = null;
 
             if (message.Text == "reset")
@@ -36,6 +39,10 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
             else if (message.Text == "cat")
             {
                 attachment = GetInternetAttachment();
+
+                replyMessage.Attachments = new List<Attachment> { attachment };
+
+                await context.PostAsync(replyMessage);
             }
             else
             {
