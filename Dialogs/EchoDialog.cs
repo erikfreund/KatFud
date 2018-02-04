@@ -102,7 +102,8 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
         private static IntentAndEntity LuisParse(string userMessage)
         {
             var luisAppId = "7366ffa6-30b5-45b3-b609-a34c36c58554";
-            var luisGetUrl = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + luisAppId + "?q=" + userMessage;
+            var luisSubscriptionKey = "6db85d77a2424e72b694e01d1244508b";
+            var luisGetUrl = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + luisAppId + "?subscription-key=" + luisSubscriptionKey + "&verbose=true&timezoneOffset=-480&q=" + userMessage;
             IntentAndEntity messageIntentAndEntity = new IntentAndEntity();
 
             using (WebClient wc = new WebClient())
